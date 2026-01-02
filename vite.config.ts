@@ -5,6 +5,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    target: "esnext" // 이 부분이 에러를 해결하는 핵심입니다!
+    target: "esnext" // 핵심: 최신 브라우저 기능 허용
   }
 })
