@@ -6,9 +6,16 @@ export class GeminiService {
   private ai: GoogleGenAI;
 
   constructor() {
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    // [수정] process.env 대신 import.meta.env 사용!
+    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
+    
+    // 키가 없으면 에러가 나니까 체크하는 코드를 넣습니다
+    if (!apiKey) {
+      console.error("API Key is missing! Check .env or Vercel settings.");
+    }
+    this.ai = new GoogleGenAI({ apiKey: apiKey });
   }
-
+  
   async runAudit(sources: RegulationSource[], scenario: string, useSearch: boolean): Promise<AuditReport> {
     const regulationText = sources.map(s => `[SOURCE: ${s.name}]\n${s.content}`).join('\n---\n');
     
